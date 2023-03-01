@@ -1,5 +1,4 @@
 import * as fs from "fs";
-import * as Axios from "axios";
 import fetch from 'node-fetch';
 import path from 'path';
 

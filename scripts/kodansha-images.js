@@ -1,7 +1,6 @@
 import * as fs from "fs";
 import fetch from 'node-fetch';
 import path from 'path';
-import * as sharp from "sharp"
 
 async function getImages(url) {
     const response = await fetch(url);
@@ -14,7 +13,15 @@ const downloadImage = async (url, imageName) => {
     imageName = imageName.split("?")[0];
     await fetch(url)
 	.then(res =>
-	   res.body.pipe(fs.createWriteStream(path.resolve("kodansha", imageName + ".jpg")))
+        {
+            const filePath = path.resolve("kodansha", imageName + ".jpg");
+            if(fs.existsSync(filePath)){
+                console.log(`${filePath} already exists`);
+                return;
+            }else{
+                return res.body.pipe(fs.createWriteStream(filePath))
+            }
+        }
 	)
     .catch(e => console.error(e));
 }
